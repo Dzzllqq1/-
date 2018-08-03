@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        /*大盒子*/
+        .sister{
+            width: 902px;
+            height: 450px;
+            /*border: 1px solid #000;*/
+            margin: 50px auto;
+        }
+        /*左边的播放器*/
+        .box{
+            width: 300px;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+            float: left;
+        }
+        /*下面的盒子*/
+        .bg{
+            width: 320px;
+            height: 470px;
+            background: url("1.jpg") no-repeat center center;
+            background-size: cover;
+            filter: blur(20px);
+            position: absolute;
+            top: -10px;
+            left: -10px;
+        }
+        .ctrl-box{
+            width: 300px;
+            height: 450px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            background-color: rgba(0,0,0,.5);
+            color: rgba(255,255,255,.8);
+        }
+        .ctrl-box .header{
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,.5);
+        }
+        .ctrl-box .header .singer{
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .main{
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        .main .big-box{
+            width: 206px;
+            height: 206px;
+            background-color: rgba(255,255,255,.1);
+            margin: 47px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .main .img-box{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: black;
+            margin: 3px auto;
+        }
+        /*音乐图片*/
+        .main .img-box img{
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 25px;
+        }
+
+        .footer{
+            font-size: 12px;
+        }
+        .footer span{
+            float: left;
+            margin: 0 9px;
+        }
+        .footer .ctrl-line-box{
+            width: 200px;
+            height: 2px;
+            background-color: rgba(255,255,255,.2);
+            float: left;
+            margin-top: 7px;
+            position: relative;
+        }
+        .footer .ctrl-line-box  .circle{
+            width: 10px;
+            height: 10px;
+            background-color: #dbdbdb;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            left: 0;
+            z-index: 2;
+        }
+        /*绿色进度条*/
+        .footer .ctrl-line-box  .now{
+            width: 0px;
+            height: 2px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(62, 224, 44, .3);
+        }
+        /*清除浮动*/
+        .clearfix{
+            clear: both;
+        }
+        .play-box{
+            margin-top: 10px;
+        }
+        .play-box div{
+            float: left;
+        }
+        /*点击播放的圆*/
+        .play-box .play {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 20px;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+        /*点击播放*/
+        .play .p{
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 15px solid #fff;
+            margin: 10px 19px;
+            cursor: pointer;
+        }
+        .play-box .prev{
+            margin-left: 65px;
+        }
+        .play-box .next , .play-box .prev{
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            margin-top: 5px;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+        /*左边的圆*/
+        .play-box .prev .left{
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid #fff;
+            margin: 10px 12px;
+        }
+        /*右边的圆*/
+        .play-box .next .right{
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid #fff;
+            margin: 10px 17px;
+        }
+        /*点击暂停*/
+        .stop{
+            width: 15px;
+            height: 15px;
+            margin: 17px;
+            background-color: #fff;
+            display: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+<div class="sister">
+    <div class="box">
+        <div class="ctrl-box">
+            <div class="header">
+                <p class="song"></p>
+                <p class="singer"></p>
+            </div>
+            <div class="main">
+                <div class="big-box">
+                    <div class="img-box">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="ctrl">
+                    <!--开始时间-->
+                    <span class="now-time">00:00</span>
+                    <!--读条-->
+                    <div class="ctrl-line-box">
+                        <div class="circle"></div>
+                        <div class="now"></div>
+                    </div>
+                    <!--总共时长-->
+                    <span class="total-time">00:00</span>
+                </div>
+                <div class="clearfix"></div>
+                <div class="play-box">
+                    <!--左边的圆  上一曲-->
+                    <div class="prev">
+                        <div class="left"></div>
+                    </div>
+                    <!--播放暂停-->
+                    <div class="play">
+                        <div class="p"></div>
+                        <div class="stop"></div>
+                    </div>
+                    <!--右边的圆  下一曲-->
+                    <div class="next">
+                        <div class="right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg"></div>
+    </div>
+
+
+</div>
+<audio></audio>
+</body>
+<script>
+    var json=[
+        {
+            song:'我的一个道姑朋友',
+            singer:'mdzz',
+            url:'http://dl.stream.qqmusic.qq.com/C400002tg05g1rrPiB.m4a?vkey=1A97ED0746F03436AB9E63A943BD47A5B5866EB1C1AE4C1FB41880DE0EB5014348B503CB70E5165D648BF17F6B29DCF0617803408594EF5A&guid=5629505888&uin=0&fromtag=66',
+            pic:'1.jpg'
+        }, {
+            song:'讲真的',
+            singer:'mdzz',
+            url:'http://dl.stream.qqmusic.qq.com/C400001KfZgl2P8AaH.m4a?vkey=0BD290B791582318A97E005C8DCD2A738117DA1BCA006CBD3D99729759CEDFED895A8BFB830E7A3C5A000CC986B44135118FB8F1A8381E2B&guid=5629505888&uin=0&fromtag=66',
+            pic:'2.jpg'
+        },{
+            song:'起风了',
+            singer:'mdzz',
+            url:'http://dl.stream.qqmusic.qq.com/C4000004jPDk2eB2dt.m4a?vkey=FB668EC198E1D060284C06DC815AFC6EBF767B25F4D4F29F138ABBDA9FCBD6D2AFFD88243DA5BA5281B60BCEB59715068A661F79AA349003&guid=5629505888&uin=0&fromtag=66',
+            pic:'3.jpg'
+        },{
+            song:'追光者',
+            singer:'mdzz',
+            url:'http://dl.stream.qqmusic.qq.com/C400003Dkq9H0cAsTb.m4a?vkey=0EB09F5A0DC9A53A0E3CFF64B558332C1F2D2646E5A294694EF72E0C54DCF82F4C6D5EFCCF30B8967A9CB7F566D2D2F1706FED5E25C99340&guid=5629505888&uin=0&fromtag=66',
+            pic:'4.jpg'
+        },{
+            song:'迷迭香',
+            singer:'mdzz',
+            url:'http://dl.stream.qqmusic.qq.com/C4000016oRIN0hu5zE.m4a?vkey=B34024E9C501877F35D3FCC76EC7F057F008638A5E0D980319BD4E99219CC3AE7D41C0BC153627E726F950D09DCF1AB0A033DDFB6E7DDEAE&guid=5629505888&uin=0&fromtag=66',
+            pic:'5.jpg'
+        }
+    ];
+    var audio = document.querySelector('audio');
+    var play = document.querySelector('.play');
+    var playBtn = document.querySelector('.p');
+    var stopBtn = document.querySelector('.stop');
+    var img = document.querySelector('.img-box img');
+    var song = document.querySelector('.song');
+    var singer = document.querySelector('.singer');
+    var bg = document.querySelector('.bg');
+    var prev = document.querySelector('.prev');
+    var next = document.querySelector('.next');
+    var totalTime = document.querySelector('.total-time');
+    var nowTime = document.querySelector('.now-time');
+    var ctrlLineBox = document.querySelector('.ctrl-line-box');
+    var circle = document.querySelector('.circle');
+    var now = document.querySelector('.now');
+    var select = document.querySelector('.select');
+    var inp = document.querySelector('input');
+    var body = document.querySelector('body');
+    var ul = document.querySelector('ul');
+
+
+    var deg = 0;
+    var timer = null;
+    var index = 0;
+
+
+    // 专辑图片样式
+    function init() {
+        deg = 0;
+        audio.src = json[index].url;
+        song.innerHTML = json[index].song;
+        singer.innerHTML = json[index].singer;
+        img.src = json[index].pic;
+        bg.style.background = 'url("'+json[index].pic+'") no-repeat center center';
+    }
+    // 歌曲播放 暂停
+    function playMusic() {
+        index = index > json.length - 1 ? 0 : index;
+        index = index < 0 ? json.length - 1: index;
+        audio.play();
+        playBtn.style.display = 'none';
+        stopBtn.style.display = 'block';
+        clearInterval(timer);
+        timer = setInterval(function () {
+            deg++;
+            img.style.transform = 'rotate('+deg+'deg)';
+        },30);
+    }
+    init();
+
+    // 通过js提供的API操作音频
+    // audio.play();
+    play.addEventListener('click',function () {
+        // 检测当前歌曲是否在播放
+        if(audio.paused){
+            playMusic();
+        }else {
+            // 歌曲暂停
+            audio.pause();
+            timer = clearInterval(timer);
+            playBtn.style.display = 'block';
+            stopBtn.style.display = 'none';
+        }
+
+    });
+    // 下一首歌曲
+    next.addEventListener('click',function () {
+        index++;
+        index = index > json.length - 1 ? 0 : index;
+        init();
+        playMusic();
+    });
+    // 上一首歌曲
+    prev.addEventListener('click',function () {
+        index--;
+        index = index < 0 ? json.length - 1: index;
+        init();
+        playMusic();
+    });
+
+    function fomateTime(date) {
+        return date > 9 ? date : '0' + date;
+    }
+
+    function getTime(time) {
+        var totalSecond = parseInt(time % 60);
+        var totalMinutes = parseInt(time / 60);
+        return fomateTime(totalMinutes) + ':' + fomateTime(totalSecond);
+    }
+
+
+    // 当音频准备好播放的时候回触发事件
+    audio.addEventListener('canplay',function () {
+        // 获取音频时长
+        // audio.duration  总时长
+        totalTime.innerHTML = getTime(audio.duration);
+
+
+        // timeupdate 当播放时长得到更新后触发
+        audio.addEventListener('timeupdate',function () {
+            // 获取当前播放时长
+            nowTime.innerHTML = getTime(audio.currentTime);
+            // 进度条
+            // 圆的left值 当前时长 / 总时长 * 背景条宽度 - 圆的宽度
+            var left = audio.currentTime / audio.duration * (ctrlLineBox.offsetWidth - circle.offsetWidth);
+            circle.style.left = left + 'px';
+            now.style.width = left + (circle.offsetWidth / 2) + 'px';
+
+            // 检测歌曲是否播放完成   播放完成 audio.ended 返回true
+
+            if(audio.ended){
+                index++;
+                init();
+                playMusic();
+            }
+        });
+    });
+    ctrlLineBox.addEventListener('click',function (e) {
+        // 获取到鼠标所在控制条的位置
+        audio.currentTime = e.offsetX / ctrlLineBox.offsetWidth * audio.duration;
+    });
+</script>
+</html>
